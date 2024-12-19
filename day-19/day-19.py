@@ -46,3 +46,18 @@ for design in designs:
 print(len([c for c in counts if c]))
 # part 2
 print(sum(counts))
+
+# great optimization using @functools.cache:
+# https://www.reddit.com/r/adventofcode/comments/1hhlb8g/comment/m2sos6b/
+
+import functools
+
+@functools.cache
+def count(design):
+    if len(design) == 0:
+        return 1
+    return sum(count(design.removeprefix(p)) for p in patterns if design.startswith(p))
+
+counts = list(map(count, designs))
+print(len([c for c in counts if c]))
+print(sum(counts))
